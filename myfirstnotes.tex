@@ -1,0 +1,337 @@
+\documentclass[10pt,landscape,a4paper]{article}
+\PassOptionsToPackage{usenames,dvipsnames}{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage[UKenglish]{babel}
+\usepackage{tikz}
+\usetikzlibrary{shapes,positioning,arrows,fit,calc,graphs,graphs.standard}
+\usepackage[nosf]{kpfonts}
+\usepackage[t1]{sourcesanspro}
+\usepackage{multicol}
+\usepackage{wrapfig}
+\usepackage[top=0mm,bottom=4mm,left=2mm,right=1mm]{geometry}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{microtype}
+\usepackage{mathtools} % loads amsmath, for math environments etc
+\usepackage{setspace}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usepackage{enumitem}
+\usepackage{kpfonts,amssymb,empheq,fancybox}
+\usepackage{mathtools}
+\usepackage{venndiagram}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{textcomp}
+\usepackage{scalerel}
+\usepackage{wasysym}
+\usepackage{pagecolor}
+
+%%highliht with \hl
+\usepackage{xcolor}
+\usepackage{soul}
+\colorlet{highlightgreen}{green!10}
+\sethlcolor{highlightgreen}
+
+
+
+
+\DeclareRobustCommand{\hly}[1]{{ 
+		\colorlet{highlightyellow}{Salmon!30}
+		\sethlcolor{highlightyellow} 
+		\hl{#1}}}
+
+\DeclareRobustCommand{\hlr}[1]{{ 
+		\colorlet{highlight}{red!60}
+		\sethlcolor{highlight} 
+		\hl{#1}}}
+
+\setitemize{leftmargin=*,noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
+
+\let\bar\overline
+\let\displaystyle\textstyle
+
+\definecolor{myblue}{cmyk}{1,.72,0,.38}
+
+\def\firstcircle{(0,0) circle (1.5cm)}
+\def\secondcircle{(0:2cm) circle (1.5cm)}
+
+\colorlet{circle edge}{myblue}
+\colorlet{circle area}{myblue!5}
+
+\tikzset{filled/.style={fill=circle area, draw=circle edge, thick},
+    outline/.style={draw=circle edge, thick}}
+
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+
+\everymath\expandafter{\the\everymath \color{myblue}}
+\everydisplay\expandafter{\the\everydisplay \color{myblue}}
+
+\renewcommand{\baselinestretch}{.8}
+\pagestyle{empty}
+
+\global\mdfdefinestyle{header}{%
+linecolor=gray,linewidth=1pt,%
+leftmargin=6mm,rightmargin=6mm,skipbelow=1mm,skipabove=1mm,
+}
+
+\newcommand{\ffbox}[1]{%
+	{% open a group for a local setting
+		\setlength{\fboxsep}{-2\fboxrule}% the rule will be inside the box boundary
+		\fbox{\hspace{1.2pt}\strut#1\hspace{1.2pt}}% print the box, with some padding at the left and right
+	}% close the group
+}
+
+\newcommand{\header}{
+\begin{mdframed}[style=header]
+\scriptsize
+
+\textbf{Stefanica - 150 quant interviews \\ ~Alain~Chenier,~page~\thepage,  \today{} }
+\end{mdframed}
+}
+
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {.1ex}%
+                                {.1ex}%x
+                                {\color{blue}\sffamily\small\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{1}{0mm}%
+                                {.1ex}%
+                                {.1ex}%x
+                                {\sffamily\bfseries}}
+
+\def\textSq#1{%
+	\begingroup% make boxes and lengths local
+	\setlength{\fboxsep}{0.001pt}% SET ANY DESIRED PADDING HERE
+	\setbox1=\hbox{#1}% save the contents
+	\setlength{\@tempdima}{\maxof{\wd1}{\ht1+\dp1}}% size of the box
+	\setlength{\@tempdimb}{(\@tempdima-\ht1+\dp1)/2}% vertical raise
+	\raise-\@tempdimb\hbox{\fbox{\vbox to \@tempdima{%
+				\vfil\hbox to \@tempdima{\hfil\copy1\hfil}\vfil}}}%
+	\endgroup%
+}
+\def\Sq#1{\textSq{\ensuremath{#1}}}%
+
+\def\multi@column@out{%
+   \ifnum\outputpenalty <-\@M
+   \speci@ls \else
+   \ifvoid\colbreak@box\else
+     \mult@info\@ne{Re-adding forced
+               break(s) for splitting}%
+     \setbox\@cclv\vbox{%
+        \unvbox\colbreak@box
+        \penalty-\@Mv\unvbox\@cclv}%
+   \fi
+   \splittopskip\topskip
+   \splitmaxdepth\maxdepth
+   \dimen@\@colroom
+   \divide\skip\footins\col@number
+   \ifvoid\footins \else
+      \leave@mult@footins
+   \fi
+   \let\ifshr@kingsaved\ifshr@king
+   \ifvbox \@kludgeins
+     \advance \dimen@ -\ht\@kludgeins
+     \ifdim \wd\@kludgeins>\z@
+        \shr@nkingtrue
+     \fi
+   \fi
+   \process@cols\mult@gfirstbox{%
+%%%%% START CHANGE
+\ifnum\count@=\numexpr\mult@rightbox+2\relax
+          \setbox\count@\vsplit\@cclv to \dimexpr \dimen@-1cm\relax
+\setbox\count@\vbox to \dimen@{\vbox to 1cm{\header}\unvbox\count@\vss}%
+\else
+      \setbox\count@\vsplit\@cclv to \dimen@
+\fi
+%%%%% END CHANGE
+            \set@keptmarks
+            \setbox\count@
+                 \vbox to\dimen@
+                  {\unvbox\count@
+                   \remove@discardable@items
+                   \ifshr@nking\vfill\fi}%
+           }%
+   \setbox\mult@rightbox
+       \vsplit\@cclv to\dimen@
+   \set@keptmarks
+   \setbox\mult@rightbox\vbox to\dimen@
+          {\unvbox\mult@rightbox
+           \remove@discardable@items
+           \ifshr@nking\vfill\fi}%
+   \let\ifshr@king\ifshr@kingsaved
+   \ifvoid\@cclv \else
+       \unvbox\@cclv
+       \ifnum\outputpenalty=\@M
+       \else
+          \penalty\outputpenalty
+       \fi
+       \ifvoid\footins\else
+         \PackageWarning{multicol}%
+          {I moved some lines to
+           the next page.\MessageBreak
+           Footnotes on page
+           \thepage\space might be wrong}%
+       \fi
+       \ifnum \c@tracingmulticols>\thr@@
+                    \hrule\allowbreak \fi
+   \fi
+   \ifx\@empty\kept@firstmark
+      \let\firstmark\kept@topmark
+      \let\botmark\kept@topmark
+   \else
+      \let\firstmark\kept@firstmark
+      \let\botmark\kept@botmark
+   \fi
+   \let\topmark\kept@topmark
+   \mult@info\tw@
+        {Use kept top mark:\MessageBreak
+          \meaning\kept@topmark
+         \MessageBreak
+         Use kept first mark:\MessageBreak
+          \meaning\kept@firstmark
+        \MessageBreak
+         Use kept bot mark:\MessageBreak
+          \meaning\kept@botmark
+        \MessageBreak
+         Produce first mark:\MessageBreak
+          \meaning\firstmark
+        \MessageBreak
+        Produce bot mark:\MessageBreak
+          \meaning\botmark
+         \@gobbletwo}%
+   \setbox\@cclv\vbox{\unvbox\partial@page
+                      \page@sofar}%
+   \@makecol\@outputpage
+     \global\let\kept@topmark\botmark
+     \global\let\kept@firstmark\@empty
+     \global\let\kept@botmark\@empty
+     \mult@info\tw@
+        {(Re)Init top mark:\MessageBreak
+         \meaning\kept@topmark
+         \@gobbletwo}%
+   \global\@colroom\@colht
+   \global \@mparbottom \z@
+   \process@deferreds
+   \@whilesw\if@fcolmade\fi{\@outputpage
+      \global\@colroom\@colht
+      \process@deferreds}%
+   \mult@info\@ne
+     {Colroom:\MessageBreak
+      \the\@colht\space
+              after float space removed
+              = \the\@colroom \@gobble}%
+    \set@mult@vsize \global
+  \fi}
+
+\makeatother
+
+\newcommand{\myE}[1]{ \mathbb{E} \left[ #1 \right] }
+\newcommand{\mycondE}[2]{E \left( #1 | #2 \right) }
+\newcommand{\myMI}{ M_{\infty} }
+\newcommand{\myMn}{ M_{n} }
+\newcommand{\myM}[1]{M_{#1}}
+
+\newcommand{\myFF}{\mathcal{F}}
+\newcommand{\myGF}{\mathcal{G}}
+
+\newcommand\myeq[1]{\stackrel{{\normalfont\mbox{#1}}}{ = }}
+\newcommand\myle[1]{\stackrel{{\normalfont\mbox{#1}}}{ \le }}
+
+\newcommand\myright[1]{\stackrel{{\normalfont\mbox{#1}}}{ \Rightarrow }}
+
+\newcommand{\myVar}{ \operatorname{Var} }
+\newcommand{\Var}{ \operatorname{Var} }
+
+\def\stretchint#1{\vcenter{\hbox{\stretchto[440]{\displaystyle\int}{#1}}}}
+\def\scaleint#1{\vcenter{\hbox{\scaleto[3ex]{\displaystyle\int}{#1}}}}
+
+\newcommand\myexp[1]{e^{#1}}
+
+\newcommand{\mylp}{ \left ( }
+\newcommand{\myrp}{ \right ) }
+
+\newcommand{\myblp}{ \big \{ }
+\newcommand{\mybrp}{ \big \} }
+
+\setlength{\parindent}{0pt}
+\setlength{\columnseprule}{0.01pt}
+
+\newcommand{\Tau}{\mathcal{T}}
+\newcommand{\myhighlight}[1]{\colorbox{green!10}{$\displaystyle #1$}}
+
+\def\bs{\mkern-7mu} % reset amount of backspacing for lower limit of integration
+
+\newcommand{\myint}{\scaleint{4ex}}
+\newcommand{\mybint}{\scaleint{7ex}}
+\newcommand{\mybbint}{\scaleint{9ex}}
+\newcommand{\sech}{ \operatorname{sech} }
+\newcommand{\rpm}{\raisebox{.2ex}{$\scriptstyle\pm$}}
+
+\newcommand*\dif{\mathop{}\!\mathrm{d}}
+
+\definecolor{light-gray}{gray}{0.97}
+
+
+
+\begin{document}
+
+\newcommand{\sucht}{\ \wasytherefore\ }
+
+\pagecolor{light-gray}	
+\normalsize
+
+\begin{multicols*}{4}
+
+\begin{spacing}{0.1}
+
+\section{homology lesson 1 Introduction}%
+\label{sec:first_lesson}
+
+\begin{itemize}
+  \item fundamental group of surf or space
+  \item good for low dimension data bc about loops
+  \item fundamental group: $ \Pi_{1}  $ 
+  \item there are high dimension analogues called homotopy groups  $ \Pi_{n}IX) , n $ 
+  \item for example $ \Pi_{2}  $ is loop of loops 
+  \item maps of square to space X which has behaviour around boundary
+  \item Problem : homotopy groups are more complicated and hard to compute
+  \item homomotopy group $ \Pi_{n}IX) , n $ of k=sphere $S^k$ exsits if $n > k$ !!
+  \item homology = commutative alternative to homotopy
+  \item for space $X$ , cook up various homology groups  $ H_{n}(C)  $ 
+  \item these  $ H_{n}(C)  $ measure n-dim holes of X !! (not sure what n-dim hole is)
+  \item introduce ideas via examples !!
+  \item consider X a graph 3 vertices x y z and directed egdes a b c d
+  \item loop a bc startsat X and ends at X
+  \item loop b c a  s/e Y
+  \item loops cab Z
+  \item in commutative setting, does not matter where we start
+  \item we prefer to write the operation as + in commutative setting
+  \item loop now a + b + c = b + c + a = ....
+  \item we call this expression a cycle because physically represents going around (close loop)
+  \item another cycle: not necessarily a starting point
+  \item call it c-d
+  \item another cycle: going round the outside : a + b + d
+  \item there is algebraic relation between cycle a+b+c , c-d, a+b+d
+  \item namely: a+b+c=a+b+d+c-d - d cancels
+  \item let  $ C_0 $ free abelian group generated by \textbf{vertices} x y z
+  \item let  $ C_1 $ free abelian group generated by \textbf{edges} a b c d
+  \item then elements of C0 eg 2x + 4y -5 z
+  \item 0-dim chain =  = random combinations with integer coefficients
+  \item then elements of C1 are integral linear combs of \textbf{edges} a b c d , eg a+b+d (cycle) or 2a -5b (not a cycle)
+  \item these are 1-dim chains ?
+  \item question: what do we  mean by a cycle algebraically
+  \item in other words: what is special about \textbf{cycles} eg $a+b+d$ , which is not shared by some random combinations
+  \item Snswer: \textbf{depends on relationship betwen edges and vertices, expressed in terms of bounday of an edge}
+  \item each edge has a boundary  $ \delta $ 
+  \item boundary of a := $\delta(a)= Y - X$ (final - intl)
+  \item boundary of c := $\delta(a)= Z - Y$ (final - intl)
+  \item SO there is a mapping $\delta$ edges $ C_0 \rightarrow  $ vertices $ C_1 $ 
+  \item $ \delta $ is the group homomorphism which estends xo
+  \item dle(ax+by+)a= a d(x)+bd(y)
+\end{itemize}
+
+
+\end{spacing}
+\end{multicols*}
+\end{document}
